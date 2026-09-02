@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ludy — Cinematic video editing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#08090B;
+  --surface:#101317;
+  --surface-2:#171B20;
+  --text:#8A9099;
+  --text-dim:#5C626B;
+  --headline:#F4F5F6;
+  --accent:#E8843A;
+  --accent-dk:#9C5216;
+  --on-accent:#3A1D06;
+  --line:rgba(255,255,255,0.08);
+  --line-soft:rgba(255,255,255,0.04);
+  --pad:22px;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Inter',system-ui,sans-serif;
+  font-weight:300;
+  font-size:15px;
+  line-height:1.75;
+  letter-spacing:-0.005em;
+  -webkit-font-smoothing:antialiased;
+}
+img{display:block;width:100%;height:100%;object-fit:cover}
+a{color:inherit;text-decoration:none}
+
+.display{
+  font-family:'Archivo','Inter',sans-serif;
+  font-variation-settings:'wdth' 84;
+  font-weight:700;
+  color:var(--headline);
+  text-transform:uppercase;
+  line-height:1.12;
+  letter-spacing:-0.02em;
+}
+
+.eyebrow{
+  font-size:11px;
+  letter-spacing:0.16em;
+  text-transform:uppercase;
+  color:var(--text-dim);
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.eyebrow::before{
+  content:"";
+  width:6px;height:6px;
+  background:var(--accent);
+  border-radius:50%;
+  flex:none;
+}
+.meta{
+  font-size:11px;
+  letter-spacing:0.16em;
+  text-transform:uppercase;
+  color:var(--text-dim);
+}
+
+.wrap{padding-left:var(--pad);padding-right:var(--pad)}
+section{padding-top:62px;padding-bottom:62px}
+
+/* header */
+.header{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px var(--pad);
+  background:rgba(8,9,11,0.72);
+  backdrop-filter:blur(16px) saturate(140%);
+  border-bottom:1px solid var(--line-soft);
+}
+.logo{
+  font-family:'Archivo',sans-serif;
+  font-variation-settings:'wdth' 84;
+  font-weight:700;
+  color:var(--headline);
+  font-size:19px;
+  letter-spacing:0.02em;
+  text-transform:uppercase;
+}
+.logo i{color:var(--accent);font-style:normal}
+
+.btn{
+  display:inline-flex;align-items:center;gap:9px;
+  font-family:'Inter',sans-serif;
+  font-size:12px;
+  letter-spacing:0.02em;
+  padding:11px 18px;
+  border-radius:999px;
+  border:1px solid rgba(232,132,58,0.45);
+  color:var(--accent);
+  font-weight:400;
+  transition:background .25s ease,border-color .25s ease;
+}
+.btn::after{content:"";width:5px;height:5px;border-radius:50%;background:var(--accent)}
+.btn:hover{background:rgba(232,132,58,0.1);border-color:var(--accent)}
+.btn-solid{
+  background:var(--headline);border-color:var(--headline);color:var(--bg);
+}
+.btn-solid::after{background:var(--accent)}
+.btn-solid:hover{background:#fff;border-color:#fff}
+
+.header-actions{display:flex;align-items:center;gap:8px}
+.lang{
+  font-family:'Inter',sans-serif;font-size:11px;letter-spacing:0.1em;
+  background:none;border:1px solid var(--line);color:var(--text);
+  padding:10px 12px;border-radius:999px;cursor:pointer;line-height:1;
+  transition:color .2s ease,border-color .2s ease;
+}
+.lang:hover{color:var(--headline);border-color:var(--border-strong,rgba(255,255,255,0.22))}
+
+/* hero */
+.hero{
+  position:relative;
+  min-height:94vh;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:130px var(--pad) 44px;
+  overflow:hidden;
+}
+.hero-media{position:absolute;inset:0;z-index:0}
+.hero-media::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(8,9,11,.6) 0%,rgba(8,9,11,.3) 38%,rgba(8,9,11,.97) 100%);
+}
+.hero-inner{position:relative;z-index:1}
+.hero h1{font-size:clamp(40px,11.5vw,76px);line-height:1.06;margin:20px 0 24px}
+.hero p{max-width:36ch;color:var(--text)}
+.hero-tags{margin-top:26px;display:flex;flex-wrap:wrap;gap:7px}
+.tag{
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:7px 14px;
+  font-size:11px;
+  letter-spacing:0.02em;
+  color:var(--text);
+}
+.hero-scroll{
+  position:relative;z-index:1;margin-top:32px;
+  display:flex;align-items:center;gap:10px;
+  font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-dim);
+}
+.hero-scroll::before{content:"";width:40px;height:1px;background:var(--accent);flex:none}
+
+/* section head */
+.head{margin-bottom:30px}
+.head h2{font-size:clamp(30px,8vw,50px);margin-top:12px}
+.head .meta{display:block;margin-top:10px}
+
+/* work */
+.work{padding-bottom:0}
+.work-grid{display:grid;gap:3px}
+.work-card{position:relative;display:block;aspect-ratio:4/3;overflow:hidden}
+.work-card::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(8,9,11,0) 30%,rgba(8,9,11,.92) 100%);
+}
+.work-body{position:absolute;z-index:2;left:var(--pad);right:var(--pad);bottom:26px}
+.work-body .cat{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-dim);
+}
+.work-body .cat::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--accent)}
+.work-body h3{
+  font-family:'Archivo',sans-serif;font-variation-settings:'wdth' 84;font-weight:700;
+  color:var(--headline);text-transform:uppercase;font-size:28px;line-height:1.14;
+  letter-spacing:-0.02em;margin:10px 0 6px;
+}
+.work-body p{font-size:13px;color:var(--text)}
+
+/* about */
+.about p+p{margin-top:16px}
+.about p{max-width:58ch}
+.about .lead{color:var(--headline);font-size:19px;line-height:1.6;font-weight:300}
+
+/* services */
+.svc{
+  border-top:1px solid var(--line);
+  padding:28px 0;
+  position:relative;
+}
+.svc:last-child{border-bottom:1px solid var(--line)}
+.svc .idx{
+  font-size:11px;letter-spacing:0.16em;color:var(--accent);
+  display:block;margin-bottom:12px;
+}
+.svc h3{
+  font-family:'Archivo',sans-serif;font-variation-settings:'wdth' 84;font-weight:700;
+  text-transform:uppercase;color:var(--headline);
+  font-size:23px;line-height:1.18;letter-spacing:-0.015em;margin-bottom:14px;
+}
+.svc p{max-width:52ch}
+.svc .tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
+
+/* reasons */
+.reason{border-top:1px solid var(--line-soft);padding:22px 0;display:flex;gap:16px}
+.reason:first-of-type{border-top:1px solid var(--line)}
+.reason:last-child{border-bottom:1px solid var(--line)}
+.reason .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex:none;margin-top:12px}
+.reason h3{color:var(--headline);font-size:17px;font-weight:400;line-height:1.5;margin-bottom:8px}
+.reason p{max-width:54ch}
+
+/* statement */
+.statement h2{font-size:clamp(26px,7.5vw,46px);line-height:1.2}
+.statement .meta{margin-top:20px;display:block}
+
+/* cta */
+.cta{
+  background:var(--surface);
+  border-top:1px solid var(--line);
+  padding:70px var(--pad);
+  position:relative;
+}
+.cta::before{
+  content:"";position:absolute;top:-1px;left:var(--pad);width:56px;height:2px;background:var(--accent);
+}
+.cta h2{font-size:clamp(28px,7.5vw,48px);line-height:1.14;margin-bottom:14px}
+.cta p{margin-bottom:26px;max-width:40ch}
+.cta .alt{margin:22px 0 0;font-size:13.5px;color:var(--text-dim)}
+.cta .alt a{color:var(--accent)}
+
+/* footer */
+.footer{padding:52px var(--pad) 36px}
+.footer .logo{display:inline-block;margin-bottom:18px}
+.footer .tagline{max-width:36ch;margin-bottom:34px;font-size:14px}
+.fcol{margin-bottom:24px}
+.fcol h4{
+  color:var(--text-dim);font-size:11px;letter-spacing:0.16em;text-transform:uppercase;
+  font-weight:400;margin-bottom:14px;
+}
+.fcol li{list-style:none;padding:5px 0;font-size:14px}
+.fcol a{transition:color .2s ease}
+.fcol a:hover{color:var(--headline)}
+.mail{color:var(--accent)}
+.copy{margin-top:28px;padding-top:22px;border-top:1px solid var(--line-soft);font-size:12px;color:var(--text-dim)}
+
+/* media placeholders — swap for real footage/photos */
+.ph{
+  width:100%;height:100%;
+  background:var(--surface-2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:#383D45;
+}
+.work-card img{transition:transform .7s cubic-bezier(.2,.6,.2,1)}
+.work-card:hover img{transform:scale(1.04)}
+
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+/* revelação no scroll — só ativa quando o JS marca o html */
+.rv-on .rv{
+  opacity:0;
+  transform:translateY(16px);
+  transition:opacity .8s cubic-bezier(.2,.6,.2,1),transform .8s cubic-bezier(.2,.6,.2,1);
+  will-change:opacity,transform;
+}
+.rv-on .rv.rv-media{transform:translateY(0) scale(1.03)}
+.rv-on .rv.in{opacity:1;transform:none}
+.rv-on .hero-inner>*,.rv-on .hero-scroll{opacity:0;transform:translateY(18px)}
+.rv-on .hero-inner>*.in,.rv-on .hero-scroll.in{
+  opacity:1;transform:none;
+  transition:opacity .9s cubic-bezier(.2,.6,.2,1),transform .9s cubic-bezier(.2,.6,.2,1);
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important;scroll-behavior:auto}
+  .rv,.hero-inner>*,.hero-scroll{opacity:1!important;transform:none!important}
+}
+
+@media (min-width:760px){
+  :root{--pad:60px}
+  section{padding-top:104px;padding-bottom:104px}
+  body{font-size:16px}
+  .hero p{max-width:44ch}
+  .head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px}
+  .head .meta{margin-top:0}
+  .work-grid{grid-template-columns:1fr 1fr}
+  .work-card{aspect-ratio:16/11}
+  .svc-grid{display:grid;grid-template-columns:1fr 1fr;column-gap:60px}
+  .footer-cols{display:flex;gap:100px}
+  .about .lead{font-size:22px}
+  .statement{max-width:22ch}
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <a href="#top" class="logo">Ludy<i>.</i></a>
+  <div class="header-actions">
+    <button id="lang" class="lang" type="button" aria-label="Mudar idioma para português">PT</button>
+    <a href="https://wa.me/351900000000?text=Hi%20Ludy%2C%20I%27d%20like%20a%20quote%20for%20a%20video%20project" class="btn wa" data-pt="Pedir orçamento" data-wa-pt="Olá%20Ludy%2C%20queria%20um%20orçamento%20para%20um%20projeto%20de%20vídeo" target="_blank" rel="noopener">Get a quote</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-media"><div class="ph">Hero reel — loop 10s, muted, 1080p</div></div>
+    <div class="hero-inner">
+      <p class="eyebrow" data-pt="Porto — trabalho remoto">Porto — working remotely</p>
+      <h1 class="display" data-pt="Edições que seguram o scroll">Edits that hold the scroll</h1>
+      <p data-pt="Reels cinematográficos, edição para YouTube e filmagem no local para criadores e marcas.">Cinematic reels, YouTube edits and on-location filming for creators and brands.</p>
+      <div class="hero-tags">
+        <span class="tag">Reels</span>
+        <span class="tag">YouTube</span>
+        <span class="tag">Motion &amp; VFX</span>
+        <span class="tag" data-pt="Diárias de filmagem">Filming days</span>
+      </div>
+    </div>
+    <div class="hero-scroll" data-pt="Trabalhos selecionados abaixo">Selected work below</div>
+  </section>
+
+  <!-- WORK -->
+  <section class="work">
+    <div class="wrap">
+      <div class="head">
+        <div>
+          <p class="eyebrow" data-pt="Projetos recentes">Recent projects</p>
+          <h2 class="display" data-pt="Trabalhos selecionados">Selected work</h2>
+        </div>
+        <span class="meta">2026</span>
+      </div>
+    </div>
+    <div class="work-grid">
+
+      <a class="work-card" href="#contact">
+        <div class="ph">Project still 01</div>
+        <div class="work-body">
+          <span class="cat" data-pt="Criador">Creator</span>
+          <h3 data-pt="Nome do criador">Creator name</h3>
+          <p data-pt="Reels mensais — edição, legendas, sound design">Monthly reels — editing, captions, sound design</p>
+        </div>
+      </a>
+
+      <a class="work-card" href="#contact">
+        <div class="ph">Project still 02</div>
+        <div class="work-body">
+          <span class="cat" data-pt="Marca">Brand</span>
+          <h3 data-pt="Nome da campanha">Campaign name</h3>
+          <p data-pt="Reel cinematográfico — cor, motion graphics, VFX">Cinematic reel — colour, motion graphics, VFX</p>
+        </div>
+      </a>
+
+      <a class="work-card" href="#contact">
+        <div class="ph">Project still 03</div>
+        <div class="work-body">
+          <span class="cat" data-pt="Formato longo">Long form</span>
+          <h3 data-pt="Nome do canal">Channel name</h3>
+          <p data-pt="Edição para YouTube — estrutura, ritmo, gráficos">YouTube edit — structure, pacing, graphics</p>
+        </div>
+      </a>
+
+      <a class="work-card" href="#contact">
+        <div class="ph">Project still 04</div>
+        <div class="work-body">
+          <span class="cat" data-pt="No local">On location</span>
+          <h3 data-pt="Diária de filmagem">Filming day</h3>
+          <p data-pt="Filmagem e edição — cobertura de dia inteiro no Porto">Shooting and edit — full-day coverage in Porto</p>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="wrap about">
+    <div class="head">
+      <div>
+        <p class="eyebrow" data-pt="Quem sou">Who I am</p>
+        <h2 class="display" data-pt="Um editor, do início ao fim">One editor, start to finish</h2>
+      </div>
+    </div>
+    <p class="lead" data-pt="Brasileiro-português, morando no Porto. Seja o que for que entre na frente da lente, o trabalho por baixo é sempre o mesmo: perseguir a luz, segurar o ritmo e cortar um respiro antes do momento acontecer.">Brazilian-Portuguese, based in Porto. Whatever ends up in front of the lens, the work underneath it stays the same: chase the light, hold the rhythm, cut a breath before the moment lands.</p>
+    <p data-pt="Só que bonito sozinho não resolve. O seu vídeo está ali para vender, explicar ou fazer alguém confiar em você. Começo por aí e faço valer a pena assistir no caminho.">Beautiful on its own doesn't do the job, though. Your video is there to sell something, explain something, or make someone trust you. I start from that, and make it worth watching on the way.</p>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="wrap">
+    <div class="head">
+      <div>
+        <p class="eyebrow" data-pt="Serviços">Services</p>
+        <h2 class="display" data-pt="O que eu faço">What I do</h2>
+      </div>
+      <span class="meta" data-pt="Quatro formas de trabalhar juntos">Four ways to work together</span>
+    </div>
+    <div class="svc-grid">
+
+      <div class="svc">
+        <span class="idx" data-pt="Reels">Reels</span>
+        <h3 data-pt="Edições curtas feitas para reter">Short edits built for retention</h3>
+        <p data-pt="Cortes secos, legendas legíveis e som que conduz o ritmo. Entregues num fluxo mensal, para você sempre ter algo pronto para postar.">Tight cuts, readable captions, sound that carries the pacing. Delivered on a monthly rhythm so you always have something ready to post.</p>
+        <div class="tags">
+          <span class="tag" data-pt="Legendas">Captions</span>
+          <span class="tag">Sound design</span>
+          <span class="tag">Vertical</span>
+        </div>
+      </div>
+
+      <div class="svc">
+        <span class="idx" data-pt="Cinematográfico">Cinematic</span>
+        <h3 data-pt="O mesmo reel, tratado como cinema">The same reel, treated like a film</h3>
+        <p data-pt="Correção de cor, motion graphics e VFX, speed ramp e uma cama sonora mixada para o corte. Para lançamentos e tudo que precisa parecer caro.">Colour grading, motion graphics and VFX, speed ramping, and a sound bed mixed for the cut. For launches and anything that needs to look expensive.</p>
+        <div class="tags">
+          <span class="tag" data-pt="Correção de cor">Colour grade</span>
+          <span class="tag">Motion graphics</span>
+          <span class="tag">VFX</span>
+        </div>
+      </div>
+
+      <div class="svc">
+        <span class="idx" data-pt="Formato longo">Long form</span>
+        <h3 data-pt="Edições de YouTube que começam pela estrutura">YouTube edits that start with structure</h3>
+        <p data-pt="Corto pela narrativa primeiro e só depois entram os gráficos e o b-roll que mantêm o meio do vídeo vivo. Efeito vem depois da história funcionar.">I cut for narrative first, then add the graphics and b-roll that keep the middle of the video alive. Effects come after the story works.</p>
+        <div class="tags">
+          <span class="tag" data-pt="Estrutura">Story structure</span>
+          <span class="tag" data-pt="Ritmo">Pacing</span>
+          <span class="tag" data-pt="Gráficos">Graphics</span>
+        </div>
+      </div>
+
+      <div class="svc">
+        <span class="idx" data-pt="No local">On location</span>
+        <h3 data-pt="Diárias de filmagem já pensadas para a edição">Filming days, framed for the edit</h3>
+        <p data-pt="Eventos, produto, bastidores ou um dia inteiro te acompanhando. Você termina o dia com material que já sabe para onde vai.">Events, product, behind the scenes, or a full day following you around. You end the day with footage that already knows where it's going.</p>
+        <div class="tags">
+          <span class="tag" data-pt="Porto e viagens">Porto &amp; travel</span>
+          <span class="tag" data-pt="Dia inteiro">Full day</span>
+          <span class="tag" data-pt="Meio dia">Half day</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- REASONS -->
+  <section class="wrap">
+    <div class="head">
+      <div>
+        <p class="eyebrow" data-pt="Como eu trabalho">How I work</p>
+        <h2 class="display" data-pt="Por que trabalhar comigo">Why work with me</h2>
+      </div>
+    </div>
+
+    <div class="reason">
+      <span class="dot"></span>
+      <div>
+        <h3 data-pt="Você fala com quem edita">You talk to the person editing</h3>
+        <p data-pt="O feedback vai direto para a timeline. Nenhum briefing passa por uma corrente de pessoas, nada se perde entre a nota e o corte.">Feedback goes straight to the timeline. No brief passed down a chain, no meaning lost between the note and the cut.</p>
+      </div>
+    </div>
+    <div class="reason">
+      <span class="dot"></span>
+      <div>
+        <h3 data-pt="Feito para a plataforma, não para o showreel">Built for the platform, not for a showreel</h3>
+        <p data-pt="Uma edição linda que é pulada no terceiro segundo falhou. Eu corto pensando em como as pessoas realmente assistem.">An edit that looks beautiful and gets skipped at second three has failed. I cut for how people actually watch.</p>
+      </div>
+    </div>
+    <div class="reason">
+      <span class="dot"></span>
+      <div>
+        <h3 data-pt="Eu também filmo">I can shoot it too</h3>
+        <p data-pt="Quando o material não existe, isso não trava o projeto. Eu filmo e depois edito — já com o corte na cabeça durante a gravação.">When the footage isn't there, that's not a blocker. I film it, then edit it — with the cut already in mind on set.</p>
+      </div>
+    </div>
+    <div class="reason">
+      <span class="dot"></span>
+      <div>
+        <h3 data-pt="Um ritmo que protege o trabalho">A pace that protects the work</h3>
+        <p data-pt="Pego o que consigo fazer direito, então nada sai corrido e os prazos se sustentam.">I take on what I can do properly, so nothing gets rushed and deadlines hold.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATEMENT -->
+  <section class="wrap statement">
+    <h2 class="display" data-pt="Imagem boa é comum. Corte bom não é.">Good footage is common. A good cut is not.</h2>
+    <span class="meta" data-pt="No Porto — atendendo o mundo todo">Based in Porto — working worldwide</span>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta" id="contact">
+    <p class="eyebrow" style="margin-bottom:20px" data-pt="Próximo passo">Next step</p>
+    <h2 class="display" data-pt="Tem algo para editar?">Got something to edit?</h2>
+    <p data-pt="Me conte para que é e quando precisa. Você recebe um orçamento no mesmo dia.">Tell me what it's for and when you need it. You'll get a quote back the same day.</p>
+    <a href="https://wa.me/351900000000?text=Hi%20Ludy%2C%20I%27d%20like%20a%20quote%20for%20a%20video%20project" class="btn btn-solid wa" data-pt="Pedir orçamento no WhatsApp" data-wa-pt="Ol%C3%A1%20Ludy%2C%20queria%20um%20or%C3%A7amento%20para%20um%20projeto%20de%20v%C3%ADdeo" target="_blank" rel="noopener">Get a quote on WhatsApp</a>
+    <p class="alt" data-pt="Prefere e-mail? &lt;a href=&quot;mailto:hello@yourdomain.com&quot;&gt;hello@yourdomain.com&lt;/a&gt;">Prefer email? <a href="mailto:hello@yourdomain.com">hello@yourdomain.com</a></p>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <a href="#top" class="logo">Ludy<i>.</i></a>
+  <p class="tagline" data-pt="Edição cinematográfica e filmagem para criadores e marcas.">Cinematic editing and filming for creators and brands.</p>
+
+  <div class="footer-cols">
+    <div class="fcol">
+      <h4 data-pt="Trabalho">Work</h4>
+      <ul>
+        <li><a href="#top">Reels</a></li>
+        <li><a href="#top" data-pt="Cinematográfico">Cinematic</a></li>
+        <li><a href="#top">YouTube</a></li>
+        <li><a href="#top" data-pt="Diárias de filmagem">Filming days</a></li>
+      </ul>
+    </div>
+    <div class="fcol">
+      <h4 data-pt="Contato">Contact</h4>
+      <ul>
+        <li><a href="https://wa.me/351900000000" class="mail" target="_blank" rel="noopener">WhatsApp</a></li>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">YouTube</a></li>
+        <li><a href="mailto:hello@yourdomain.com">hello@yourdomain.com</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="copy" data-pt="© 2026 Ludy — Todos os direitos reservados.">© 2026 Ludy — All rights reserved.</p>
+</footer>
+
+<script>
+(function(){
+  var btn=document.getElementById('lang');
+  var nodes=document.querySelectorAll('[data-pt]');
+  nodes.forEach(function(n){n.dataset.en=n.innerHTML;});
+  var waNodes=document.querySelectorAll('.wa');
+  waNodes.forEach(function(a){a.dataset.hrefEn=a.getAttribute('href');});
+  var pt=false;
+  function apply(){
+    nodes.forEach(function(n){n.innerHTML=pt?n.dataset.pt:n.dataset.en;});
+    waNodes.forEach(function(a){
+      a.setAttribute('href', pt
+        ? a.dataset.hrefEn.split('?')[0]+'?text='+a.dataset.waPt
+        : a.dataset.hrefEn);
+    });
+    document.documentElement.lang=pt?'pt':'en';
+    btn.textContent=pt?'EN':'PT';
+    btn.setAttribute('aria-label',pt?'Switch language to English':'Mudar idioma para portugu\u00eas');
+  }
+  btn.addEventListener('click',function(){pt=!pt;apply();});
+})();
+</script>
+<script>
+(function(){
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduce||!('IntersectionObserver' in window))return;
+  var root=document.documentElement;
+  root.classList.add('rv-on');
+
+  var hero=[].slice.call(document.querySelectorAll('.hero-inner>*'));
+  var scroll=document.querySelector('.hero-scroll');
+  if(scroll)hero.push(scroll);
+  window.requestAnimationFrame(function(){
+    hero.forEach(function(el,i){
+      el.style.transitionDelay=(120+i*110)+'ms';
+      el.classList.add('in');
+    });
+  });
+
+  var groups=[
+    ['.head',0],['.about .lead',0],['.about p',0],
+    ['.work-card',1],['.svc',1],['.reason',1],
+    ['.statement h2',0],['.statement .meta',0],
+    ['.cta .eyebrow',0],['.cta h2',0],['.cta p',0],['.cta .btn',0],['.cta .alt',0],
+    ['.footer .logo',0],['.footer .tagline',0],['.fcol',1],['.copy',0]
+  ];
+  var items=[];
+  groups.forEach(function(g){
+    var nodes=[].slice.call(document.querySelectorAll(g[0]));
+    nodes.forEach(function(el,i){
+      if(el.classList.contains('rv'))return;
+      el.classList.add('rv');
+      if(el.classList.contains('work-card'))el.classList.add('rv-media');
+      if(g[1])el.dataset.rvDelay=Math.min(i,3)*90;
+      items.push(el);
+    });
+  });
+
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting)return;
+      var el=e.target;
+      el.style.transitionDelay=(el.dataset.rvDelay||0)+'ms';
+      el.classList.add('in');
+      io.unobserve(el);
+    });
+  },{rootMargin:'0px 0px -12% 0px',threshold:0.08});
+
+  items.forEach(function(el){io.observe(el);});
+})();
+</script>
+</body>
+</html>

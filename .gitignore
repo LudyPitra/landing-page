@@ -1,0 +1,10 @@
+# macOS
+.DS_Store
+
+# Vercel
+.vercel
+
+# Full-length edits are served from Vercel Blob, not from the repo.
+# Only the small preview loops and poster frames are committed.
+media/*-1080.mp4
+.env*

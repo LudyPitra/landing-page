@@ -350,7 +350,11 @@ body.lb-lock{overflow:hidden}
   .hero p{max-width:44ch}
   .head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px}
   .head .meta{margin-top:0}
-  .work-grid{grid-template-columns:1fr 1fr}
+  /* cap the content column so cards stop growing on large monitors.
+     1720 = 1600 content + 2x60 padding, so .wrap's inner edge lines up
+     exactly with the grid. Hero, CTA and footer stay full-bleed. */
+  .wrap{max-width:1720px;margin-left:auto;margin-right:auto}
+  .work-grid{grid-template-columns:1fr 1fr;max-width:1600px;margin-left:auto;margin-right:auto}
   .work-card{aspect-ratio:16/11}
   .svc-grid{display:grid;grid-template-columns:1fr 1fr;column-gap:60px}
   .footer-cols{display:flex;gap:100px}

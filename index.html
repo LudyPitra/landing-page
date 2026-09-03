@@ -213,10 +213,6 @@ section{padding-top:62px;padding-bottom:62px}
 .reason h3{color:var(--headline);font-size:17px;font-weight:400;line-height:1.5;margin-bottom:8px}
 .reason p{max-width:54ch}
 
-/* statement */
-.statement h2{font-size:clamp(26px,7.5vw,46px);line-height:1.2}
-.statement .meta{margin-top:20px;display:block}
-
 /* cta */
 .cta{
   background:var(--surface);
@@ -359,7 +355,6 @@ body.lb-lock{overflow:hidden}
   .svc-grid{display:grid;grid-template-columns:1fr 1fr;column-gap:60px}
   .footer-cols{display:flex;gap:100px}
   .about .lead{font-size:22px}
-  .statement{max-width:22ch}
 }
 </style>
 </head>
@@ -464,18 +459,6 @@ body.lb-lock{overflow:hidden}
     </div>
   </section>
 
-  <!-- ABOUT -->
-  <section class="wrap about">
-    <div class="head">
-      <div>
-        <p class="eyebrow" data-pt="Quem sou">Who I am</p>
-        <h2 class="display" data-pt="Um editor, do início ao fim">One editor, start to finish</h2>
-      </div>
-    </div>
-    <p class="lead" data-pt="Brasileiro-português, morando no Porto. Seja o que for que entre na frente da lente, o trabalho por baixo é sempre o mesmo: perseguir a luz, segurar o ritmo e cortar um respiro antes do momento acontecer.">Brazilian-Portuguese, based in Porto. Whatever ends up in front of the lens, the work underneath it stays the same: chase the light, hold the rhythm, cut a breath before the moment lands.</p>
-    <p data-pt="Só que bonito sozinho não resolve. O seu vídeo está ali para vender, explicar ou fazer alguém confiar em você. Começo por aí e faço valer a pena assistir no caminho.">Beautiful on its own doesn't do the job, though. Your video is there to sell something, explain something, or make someone trust you. I start from that, and make it worth watching on the way.</p>
-  </section>
-
   <!-- SERVICES -->
   <section class="wrap">
     <div class="head">
@@ -534,6 +517,18 @@ body.lb-lock{overflow:hidden}
     </div>
   </section>
 
+  <!-- ABOUT -->
+  <section class="wrap about">
+    <div class="head">
+      <div>
+        <p class="eyebrow" data-pt="Quem sou">Who I am</p>
+        <h2 class="display" data-pt="Um editor, do início ao fim">One editor, start to finish</h2>
+      </div>
+    </div>
+    <p class="lead" data-pt="Brasileiro-português, morando no Porto. Seja o que for que entre na frente da lente, o trabalho por baixo é sempre o mesmo: perseguir a luz, segurar o ritmo e cortar um respiro antes do momento acontecer.">Brazilian-Portuguese, based in Porto. Whatever ends up in front of the lens, the work underneath it stays the same: chase the light, hold the rhythm, cut a breath before the moment lands.</p>
+    <p data-pt="Só que bonito sozinho não resolve. O seu vídeo está ali para vender, explicar ou fazer alguém confiar em você. Começo por aí e faço valer a pena assistir no caminho.">Beautiful on its own doesn't do the job, though. Your video is there to sell something, explain something, or make someone trust you. I start from that, and make it worth watching on the way.</p>
+  </section>
+
   <!-- REASONS -->
   <section class="wrap">
     <div class="head">
@@ -571,12 +566,6 @@ body.lb-lock{overflow:hidden}
         <p data-pt="Pego o que consigo fazer direito, então nada sai corrido e os prazos se sustentam.">I take on what I can do properly, so nothing gets rushed and deadlines hold.</p>
       </div>
     </div>
-  </section>
-
-  <!-- STATEMENT -->
-  <section class="wrap statement">
-    <h2 class="display" data-pt="Imagem boa é comum. Corte bom não é.">Good footage is common. A good cut is not.</h2>
-    <span class="meta" data-pt="No Porto — atendendo o mundo todo">Based in Porto — working worldwide</span>
   </section>
 
   <!-- CTA -->
@@ -668,7 +657,6 @@ body.lb-lock{overflow:hidden}
   var groups=[
     ['.head',0],['.about .lead',0],['.about p',0],
     ['.work-card',1],['.svc',1],['.reason',1],
-    ['.statement h2',0],['.statement .meta',0],
     ['.cta .eyebrow',0],['.cta h2',0],['.cta p',0],['.cta .btn',0],['.cta .alt',0],
     ['.footer .logo',0],['.footer .tagline',0],['.fcol',1],['.copy',0]
   ];

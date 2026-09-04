@@ -6,6 +6,8 @@
 <title>Ludy - Filmmaker</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="image" href="/media/hero-poster-portrait.jpg" media="(max-width:759px)">
+<link rel="preload" as="image" href="/media/hero-poster.jpg" media="(min-width:760px)">
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -131,9 +133,20 @@ section{padding-top:62px;padding-bottom:62px}
   padding:130px var(--pad) 44px;
   overflow:hidden;
 }
-.hero-media{position:absolute;inset:0;z-index:0}
+.hero-media{
+  position:absolute;inset:0;z-index:0;
+  /* the poster is a background rather than the video's poster attribute
+     so it can be art-directed per breakpoint - only the matching one is
+     ever downloaded, and it paints before any JS runs */
+  background:var(--bg) url(/media/hero-poster-portrait.jpg) center/cover no-repeat;
+}
+.hero-media video{
+  width:100%;height:100%;object-fit:cover;display:block;
+  opacity:0;transition:opacity .8s cubic-bezier(.2,.6,.2,1);
+}
+.hero-media video.ready{opacity:1}
 .hero-media::after{
-  content:"";position:absolute;inset:0;
+  content:"";position:absolute;inset:0;z-index:1;
   background:linear-gradient(180deg,rgba(8,9,11,.6) 0%,rgba(8,9,11,.3) 38%,rgba(8,9,11,.97) 100%);
 }
 .hero-inner{position:relative;z-index:1}
@@ -274,13 +287,6 @@ section{padding-top:62px;padding-bottom:62px}
 .mail{color:var(--accent)}
 .copy{margin-top:28px;padding-top:22px;border-top:1px solid var(--line-soft);font-size:12px;color:var(--text-dim)}
 
-/* media placeholders — swap for real footage/photos */
-.ph{
-  width:100%;height:100%;
-  background:var(--surface-2);
-  display:flex;align-items:center;justify-content:center;
-  font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:#383D45;
-}
 .work-card img{transition:transform .7s cubic-bezier(.2,.6,.2,1)}
 .work-card:hover img{transform:scale(1.04)}
 
@@ -393,6 +399,7 @@ body.lb-lock{overflow:hidden}
   .about{padding-top:62px}
   .about-portrait{max-width:420px;margin-bottom:40px}
   .about-quote{padding-left:28px;max-width:none}
+  .hero-media{background-image:url(/media/hero-poster.jpg)}
 }
 </style>
 </head>
@@ -410,7 +417,9 @@ body.lb-lock{overflow:hidden}
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-media"><div class="ph">Hero reel — loop 10s, muted, 1080p</div></div>
+    <div class="hero-media">
+      <video id="heroVideo" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+    </div>
     <div class="hero-inner">
       <p class="eyebrow" data-pt="Porto — trabalho remoto">Porto — working remotely</p>
       <h1 class="display" data-pt="Edições que seguram o scroll">Edits that hold the scroll</h1>
@@ -727,6 +736,28 @@ body.lb-lock{overflow:hidden}
   },{rootMargin:'0px 0px -12% 0px',threshold:0.08});
 
   items.forEach(function(el){io.observe(el);});
+})();
+</script>
+<script>
+(function(){
+  /* Hero loop. The poster is already painted by CSS, so nothing here
+     blocks the first render. Source is picked once, by width: phones get
+     a 9:16 centre crop (1.0MB) instead of paying for a 16:9 frame whose
+     sides object-fit would throw away - the same reasoning as the pre-cut
+     grid loops. Skipped entirely under reduced motion or Save-Data, where
+     the poster alone is the intended experience. */
+  var v=document.getElementById('heroVideo');
+  if(!v)return;
+  var mq=window.matchMedia;
+  var reduce=mq&&mq('(prefers-reduced-motion: reduce)').matches;
+  var conn=navigator.connection||navigator.webkitConnection||{};
+  if(reduce||conn.saveData)return;
+  v.src=(mq&&mq('(min-width:760px)').matches)?'/media/hero-loop.mp4':'/media/hero-loop-portrait.mp4';
+  v.preload='auto';
+  v.addEventListener('playing',function(){v.classList.add('ready');});
+  v.load();
+  var pr=v.play();
+  if(pr&&pr.catch)pr.catch(function(){});
 })();
 </script>
 <script>

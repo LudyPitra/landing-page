@@ -182,6 +182,20 @@ section{padding-top:62px;padding-bottom:62px}
 .work-body p{font-size:13px;color:var(--text)}
 
 /* about */
+.about-portrait{
+  position:relative;
+  width:100%;max-width:340px;
+  aspect-ratio:1/1;
+  margin-bottom:30px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  overflow:hidden;
+}
+.about-portrait::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(8,9,11,0.35),transparent 55%);
+  pointer-events:none;
+}
 .about p+p{margin-top:16px}
 .about p{max-width:58ch}
 .about .lead{color:var(--headline);font-size:19px;line-height:1.6;font-weight:300}
@@ -360,6 +374,7 @@ body.lb-lock{overflow:hidden}
   .svc-grid{display:grid;grid-template-columns:1fr 1fr;column-gap:60px}
   .footer-cols{display:flex;gap:100px}
   .about .lead{font-size:22px}
+  .about-portrait{max-width:420px;margin-bottom:40px}
 }
 </style>
 </head>
@@ -530,6 +545,10 @@ body.lb-lock{overflow:hidden}
         <h2 class="display" data-pt="Um editor, do início ao fim">One editor, start to finish</h2>
       </div>
     </div>
+    <figure class="about-portrait">
+      <img src="/media/ludy-portrait.jpg" width="800" height="800" loading="lazy" decoding="async"
+           alt="Ludy, filmmaker based in Porto, holding a cinema camera">
+    </figure>
     <p class="lead" data-pt="Brasileiro-português, morando no Porto. Seja o que for que entre na frente da lente, o trabalho por baixo é sempre o mesmo: perseguir a luz, segurar o ritmo e cortar um respiro antes do momento acontecer.">Brazilian-Portuguese, based in Porto. Whatever ends up in front of the lens, the work underneath it stays the same: chase the light, hold the rhythm, cut a breath before the moment lands.</p>
     <p data-pt="Só que bonito sozinho não resolve. O seu vídeo está ali para vender, explicar ou fazer alguém confiar em você. Começo por aí e faço valer a pena assistir no caminho.">Beautiful on its own doesn't do the job, though. Your video is there to sell something, explain something, or make someone trust you. I start from that, and make it worth watching on the way.</p>
   </section>
@@ -660,7 +679,7 @@ body.lb-lock{overflow:hidden}
   });
 
   var groups=[
-    ['.head',0],['.about .lead',0],['.about p',0],
+    ['.head',0],['.about-portrait',0],['.about .lead',0],['.about p',0],
     ['.work-card',1],['.svc',1],['.reason',1],
     ['.cta .eyebrow',0],['.cta h2',0],['.cta p',0],['.cta .btn',0],['.cta .alt',0],
     ['.footer .logo',0],['.footer .tagline',0],['.fcol',1],['.copy',0]

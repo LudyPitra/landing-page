@@ -208,6 +208,12 @@ section{padding-top:62px;padding-bottom:62px}
 .about-quote{
   border-left:2px solid var(--accent);
   padding-left:18px;
+  /* same cap as the portrait so the ragged right edge stops on the
+     same line as the photo. box-sizing:border-box is global, so the
+     rule and its inset are inside the 340px and the right edges meet.
+     Released at 760px, where the portrait is narrower than the
+     measure and the text is meant to run past it. */
+  max-width:340px;
 }
 
 /* services */
@@ -386,7 +392,7 @@ body.lb-lock{overflow:hidden}
   .about .lead{font-size:22px}
   .about{padding-top:62px}
   .about-portrait{max-width:420px;margin-bottom:40px}
-  .about-quote{padding-left:28px}
+  .about-quote{padding-left:28px;max-width:none}
 }
 </style>
 </head>

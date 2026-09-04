@@ -202,6 +202,13 @@ section{padding-top:62px;padding-bottom:62px}
 .about p+p{margin-top:16px}
 .about p{max-width:58ch}
 .about .lead{color:var(--headline);font-size:19px;line-height:1.6;font-weight:300}
+/* the section is Ludy talking about himself, so the copy under the
+   portrait is set as a pull quote - accent rule rather than quote
+   glyphs, to stay with the thin-line language used by the cards */
+.about-quote{
+  border-left:2px solid var(--accent);
+  padding-left:18px;
+}
 
 /* services */
 .svc{
@@ -379,6 +386,7 @@ body.lb-lock{overflow:hidden}
   .about .lead{font-size:22px}
   .about{padding-top:62px}
   .about-portrait{max-width:420px;margin-bottom:40px}
+  .about-quote{padding-left:28px}
 }
 </style>
 </head>
@@ -553,8 +561,10 @@ body.lb-lock{overflow:hidden}
       <img src="/media/ludy-portrait.jpg" width="800" height="800" loading="lazy" decoding="async"
            alt="Ludy, filmmaker based in Porto, holding a cinema camera">
     </figure>
-    <p class="lead" data-pt="Brasileiro-português, morando no Porto. Seja o que for que entre na frente da lente, o trabalho por baixo é sempre o mesmo: perseguir a luz, segurar o ritmo e cortar um respiro antes do momento acontecer.">Brazilian-Portuguese, based in Porto. Whatever ends up in front of the lens, the work underneath it stays the same: chase the light, hold the rhythm, cut a breath before the moment lands.</p>
-    <p data-pt="Só que bonito sozinho não resolve. O seu vídeo está ali para vender, explicar ou fazer alguém confiar em você. Começo por aí e faço valer a pena assistir no caminho.">Beautiful on its own doesn't do the job, though. Your video is there to sell something, explain something, or make someone trust you. I start from that, and make it worth watching on the way.</p>
+    <blockquote class="about-quote">
+      <p class="lead" data-pt="Brasileiro-português, morando no Porto. Seja o que for que entre na frente da lente, o trabalho por baixo é sempre o mesmo: perseguir a luz, segurar o ritmo e cortar um respiro antes do momento acontecer.">Brazilian-Portuguese, based in Porto. Whatever ends up in front of the lens, the work underneath it stays the same: chase the light, hold the rhythm, cut a breath before the moment lands.</p>
+      <p data-pt="Só que bonito sozinho não resolve. O seu vídeo está ali para vender, explicar ou fazer alguém confiar em você. Começo por aí e faço valer a pena assistir no caminho.">Beautiful on its own doesn't do the job, though. Your video is there to sell something, explain something, or make someone trust you. I start from that, and make it worth watching on the way.</p>
+    </blockquote>
   </section>
 
   <!-- REASONS -->

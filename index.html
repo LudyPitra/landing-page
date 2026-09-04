@@ -147,7 +147,22 @@ section{padding-top:62px;padding-bottom:62px}
 .hero-media video.ready{opacity:1}
 .hero-media::after{
   content:"";position:absolute;inset:0;z-index:1;
-  background:linear-gradient(180deg,rgba(8,9,11,.6) 0%,rgba(8,9,11,.3) 38%,rgba(8,9,11,.97) 100%);
+  /* Two layers. The scrim (first, so it paints on top) is anchored to the
+     bottom in px, not %, so it tracks the text block instead of stretching
+     with the viewport - on a tall phone a % ramp gives the copy less cover,
+     not more. The base layer below it keeps the top dark enough for the
+     fixed header and holds the mood; its bottom stop is .7 rather than .97
+     because the two now compose to .97 there, leaving the darkest point
+     exactly where it already was. */
+  background:
+    linear-gradient(to top,
+      rgba(8,9,11,.90) 0,
+      rgba(8,9,11,.70) 200px,
+      rgba(8,9,11,0) 520px),
+    linear-gradient(180deg,
+      rgba(8,9,11,.6) 0%,
+      rgba(8,9,11,.3) 38%,
+      rgba(8,9,11,.7) 100%);
 }
 .hero-inner{position:relative;z-index:1}
 .hero h1{font-size:clamp(40px,11.5vw,76px);line-height:1.06;margin:20px 0 24px}
@@ -400,6 +415,17 @@ body.lb-lock{overflow:hidden}
   .about-portrait{max-width:420px;margin-bottom:40px}
   .about-quote{padding-left:28px;max-width:none}
   .hero-media{background-image:url(/media/hero-poster.jpg)}
+  .hero-media::after{
+    background:
+      linear-gradient(to top,
+        rgba(8,9,11,.90) 0,
+        rgba(8,9,11,.70) 240px,
+        rgba(8,9,11,0) 640px),
+      linear-gradient(180deg,
+        rgba(8,9,11,.6) 0%,
+        rgba(8,9,11,.3) 38%,
+        rgba(8,9,11,.7) 100%);
+  }
 }
 </style>
 </head>
